@@ -2,12 +2,13 @@
 
 let userNumber;
 
-const promptUserNumber = () => {
+const promptUserNumber = function (attempts = 10) {
   let secretNumber = 17;
   let guess;
-  let getUserNumber = () => {
+
+  let getUserNumber = function () {
     userNumber = prompt('Угадай число от 1 до 100');
-    // отмена ввода числа
+
     if (userNumber === null) {
       alert('Игра окончена');
       return null;
@@ -17,23 +18,47 @@ const promptUserNumber = () => {
       alert('Введи число!');
       return getUserNumber();
     }
+
     userNumber = Number(userNumber);
     return userNumber;
   };
+
   guess = getUserNumber();
 
   if (guess === null) {
     return;
   }
 
+  if (guess === secretNumber) {
+    let userChoice = confirm(
+      'Поздравляю, Вы угадали!!! Хотели бы сыграть еще?',
+    );
+    if (userChoice === true) {
+      return promptUserNumber();
+    } else {
+      alert('Игра окончена');
+      return;
+    }
+  }
+
+  attempts--;
+
   if (guess > secretNumber) {
-    alert('Загаданное число меньше');
-    return promptUserNumber();
-  } else if (guess < secretNumber) {
-    alert('Загаданное число больше');
-    return promptUserNumber();
-  } else if (guess === secretNumber) {
-    return alert('Поздравляю, Вы угадали!!!');
+    alert(`Загаданное число меньше, осталось попыток ${attempts}`);
+  } else {
+    alert(`Загаданное число больше, осталось попыток ${attempts}`);
+  }
+
+  if (attempts > 0) {
+    return promptUserNumber(attempts);
+  } else {
+    let finishChois = confirm('Попытки закончились. Хотите сыграть еще?');
+    if (finishChois === true) {
+      return promptUserNumber();
+    } else {
+      alert('Игра окончена');
+      return;
+    }
   }
 };
 
