@@ -2,7 +2,7 @@
 
 let userNumber;
 
-const promptUserNumber = () => {
+const promptUserNumber = function () {
   let secretNumber = 17;
   let guess;
   let getUserNumber = () => {
